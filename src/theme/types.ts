@@ -3,8 +3,11 @@ export type ThemeMode = 'light' | 'dark';
 export type UIKitColors = {
     primary: string;
     background: string;
-    text: string;
     border: string;
+    card: string;
+
+    text: string;
+    text_inverted: string;
 
     activeButtonBackground: string;
     inactiveButtonBackground: string;
@@ -12,6 +15,7 @@ export type UIKitColors = {
     inactiveButtonText: string;
 
     icon: string,
+    error: string,
 };
 
 export type UIKitTheme = {

@@ -15,3 +15,7 @@ export const App = () => {
     </UIKitThemeProvider>
   );
 };
+
+
+npm login
+npm publish --access public

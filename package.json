@@ -1,17 +1,18 @@
 {
   "name": "react-native-ntldev-uikit",
-  "version": "1.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "1.0.9",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "files": [
-    "dist"
+    "src",
+    "README.md",
+    "package.json"
   ],
-  "scripts": {
-    "build": "tsc"
-  },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "@react-navigation/native": "*",
+    "react-native-svg": "*"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
