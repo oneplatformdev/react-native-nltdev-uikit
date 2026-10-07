@@ -1,20 +1,36 @@
 {
   "name": "react-native-ntldev-uikit",
-  "version": "1.0.9",
+  "version": "1.0.12",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "bin": {
+    "react-native-ntldev-uikit": "bin/cli.cjs"
+  },
   "files": [
     "src",
+    "bin",
+    "registry",
     "README.md",
     "package.json"
   ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "validate:registry": "node scripts/validate-registry.cjs"
+  },
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "@react-navigation/native": "*",
-    "react-native-svg": "*"
+    "react-native-keyboard-controller": "^1.22.5",
+    "react-native-linear-gradient": "^2.8.3",
+    "react-native-reanimated": "^4.6.0",
+    "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
+    "@types/react": "^19.2.0",
+    "react-native-keyboard-controller": "^1.22.5",
+    "react-native-linear-gradient": "^2.8.3",
+    "react-native-reanimated": "^4.6.0",
+    "react-native-safe-area-context": "^5.5.2",
     "typescript": "^5.0.0"
   }
 }

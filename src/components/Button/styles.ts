@@ -1,51 +1,66 @@
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import { scaleHorizontal, scaleVertical } from '../../utils';
-import { UIKitColors } from '../../theme/types';
+import { StyleSheet } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
+import type { UIColors, UIButtonSizeTheme, UIButtonVariantTheme } from '../../theme';
+import type { ScalingFunctions } from '../../utils';
 
-export const getStyles = (colors: UIKitColors, type: 'main' | 'secondary', disabled?: boolean) => {
-    const MAIN_CONTAINER: ViewStyle = {
-        height: scaleVertical(44),
-        flexDirection: 'row',
-        gap: scaleHorizontal(8),
-        borderWidth: 1,
-        borderColor: disabled ? colors.inactiveButtonBackground : colors.activeButtonBackground,
-        paddingHorizontal: scaleHorizontal(8),
-        justifyContent: 'center',
+export const getStyles = (
+    colors: UIColors,
+    scaling: ScalingFunctions,
+    variant: UIButtonVariantTheme,
+    size: UIButtonSizeTheme,
+) => {
+    const container: ViewStyle = {
+        minHeight: scaling.scaleVertical(size.minHeight),
+        paddingHorizontal: scaling.scaleHorizontal(size.paddingHorizontal),
+        paddingVertical: scaling.scaleVertical(size.paddingVertical),
+        borderRadius: scaling.scaleHorizontal(size.radius),
+        borderWidth: scaling.scaleHorizontal(variant.borderWidth ?? size.borderWidth),
         alignItems: 'center',
-        backgroundColor: disabled ? colors.inactiveButtonBackground : colors.activeButtonBackground,
-        borderRadius: 16, 
+        justifyContent: 'center',
+        backgroundColor: colors[variant.background],
+        borderColor: colors[variant.border],
     };
-    const MAIN_TEXT: TextStyle = {
+
+    const text: TextStyle = {
+        flexShrink: 1,
+        minWidth: 0,
         textAlign: 'center',
-        color: disabled ? colors.inactiveButtonText : colors.activeButtonText,
-        fontSize: 16,
-        fontWeight: '600',
     };
-    const CONTAINERS = {
-        main: MAIN_CONTAINER,
-        secondary: {
-            ...MAIN_CONTAINER,
-            borderColor: disabled ? colors.inactiveButtonBackground : colors.activeButtonBackground,
-            backgroundColor: 'transparent',
-            shadowOpacity: 0,
-            elevation: 0,
-        },
-    };
-    const TEXT = {
-        main: MAIN_TEXT,
-        secondary: {
-            ...MAIN_TEXT,
-            color: disabled ? colors.inactiveButtonText : colors.activeButtonText,
-        },
-    };
+
     const styles = StyleSheet.create({
-        container: CONTAINERS[type],
-        text: TEXT[type],
-        absoluteSheet: {
-            ...StyleSheet.absoluteFill,
-            justifyContent: 'center',
+        container,
+        content: {
+            width: '100%',
+            flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'center',
+            gap: scaling.scaleHorizontal(size.gap),
         },
+        disabled: {
+            backgroundColor: colors[variant.disabledBackground],
+            borderColor: colors[variant.disabledBorder],
+        },
+        fullWidth: {
+            width: '100%',
+        },
+        hidden: {
+            opacity: 0,
+        },
+        icon: {
+            flexShrink: 0,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        loader: {
+            ...StyleSheet.absoluteFill,
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        pressed: {
+            opacity: 0.82,
+        },
+        text,
     });
+
     return styles;
 };

@@ -1,54 +1,78 @@
-import { StyleSheet } from "react-native";
-import { scaleFontSize, scaleHorizontal, scaleVertical } from "../../utils";
-import { UIKitColors } from "../../theme";
+import { StyleSheet } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
+import type { UIColors, UIFonts, UIInputTheme } from '../../theme';
+import type { ScalingFunctions } from '../../utils';
 
-export const getStyles = (colors: UIKitColors, isFocused: boolean) => (
-    StyleSheet.create({
+export const getStyles = (
+    colors: UIColors,
+    fonts: UIFonts,
+    input: UIInputTheme,
+    scaling: ScalingFunctions,
+    focused: boolean,
+    invalid: boolean,
+    disabled: boolean,
+) => {
+    const { geometry, typography, colors: tokens } = input;
+    const border = disabled
+        ? tokens.disabledBorder
+        : invalid
+            ? tokens.errorBorder
+            : focused
+                ? tokens.focusedBorder
+                : tokens.border;
+    const field: ViewStyle = {
+        minHeight: scaling.scaleVertical(geometry.minHeight),
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: scaling.scaleHorizontal(geometry.paddingHorizontal),
+        borderWidth: scaling.scaleHorizontal(geometry.borderWidth),
+        borderColor: colors[border],
+        borderRadius: scaling.scaleHorizontal(geometry.radius),
+        backgroundColor: colors[disabled ? tokens.disabledBackground : tokens.background],
+    };
+    const text: TextStyle = {
+        flex: 1,
+        minWidth: 0,
+        minHeight: scaling.scaleVertical(geometry.textMinHeight),
+        paddingVertical: 0,
+        ...fonts[typography.inputFont],
+        fontSize: scaling.scaleFontSize(typography.inputFontSize),
+        includeFontPadding: typography.includeFontPadding,
+        color: colors[disabled ? tokens.disabledText : tokens.text],
+    };
+
+    const styles = StyleSheet.create({
         container: {
-            marginBottom: scaleVertical(8),
+            marginBottom: scaling.scaleVertical(geometry.marginBottom),
         },
         labelContainer: {
-            flexDirection: 'row',
-            marginBottom: scaleVertical(4),
+            marginBottom: scaling.scaleVertical(geometry.labelGap),
         },
-        label: {
-            color: colors.text,
-        },
-        inputContainer: {
-            minHeight: scaleVertical(44),
-            paddingVertical: 0,
-            alignItems: 'center',
-            paddingHorizontal: scaleHorizontal(12),
-            borderWidth: 1,
-            borderColor: isFocused ? colors.border : colors.card,
-            backgroundColor: colors.card,
-            borderRadius: 8,
-            flexDirection: 'row',
-        },
-        input: {
-            flex: 1,
-            minHeight: scaleVertical(44),
-            fontFamily: 'Manrope-Medium',
-            fontSize: scaleFontSize(14),
-            includeFontPadding: false,
-            paddingVertical: 0,
-            color: colors.text,
-        },
-        inputMultiline:{
+        field,
+        text,
+        multilineText: {
             textAlignVertical: 'top',
-            paddingVertical: scaleVertical(8),
+            paddingVertical: scaling.scaleVertical(geometry.multilinePaddingVertical),
         },
-        iconContainer: {
-            justifyContent: 'center',
+        startAccessory: {
             alignItems: 'center',
-            height: scaleVertical(36),
-            width: scaleHorizontal(36),
+            justifyContent: 'center',
+            marginEnd: scaling.scaleHorizontal(geometry.startAccessoryGap),
         },
-        inputError: {
-            borderColor: colors.error,
+        endAccessory: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginStart: scaling.scaleHorizontal(geometry.endAccessoryGap),
         },
-        errorText: {
-            color: colors.error,
-            marginTop: 4,
+        passwordToggle: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginStart: scaling.scaleHorizontal(geometry.passwordToggleGap),
         },
-    }));
+        supportingText: {
+            marginTop: scaling.scaleVertical(geometry.supportingGap),
+        },
+    });
+
+    return styles;
+};

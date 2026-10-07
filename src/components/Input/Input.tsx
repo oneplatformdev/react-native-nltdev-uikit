@@ -1,70 +1,152 @@
-import { memo, useMemo, forwardRef } from 'react';
-import { TextInput, View, Text, ViewStyle, TextInputProps, TextStyle } from 'react-native';
-import { getStyles } from './styles';
-import { useNLTInput } from './useNLTInput';
-import { useUIKitTheme } from '../../theme';
+import React, { forwardRef, memo } from 'react';
+import { Pressable, TextInput, View } from 'react-native';
+import { Typography } from '../Typography';
+import { useInputPresenter } from './InputPresenter';
+import type { InputProps, InputRef } from './types';
 
-export interface NLTInputProps extends TextInputProps {
-    RightAccessory?: React.ReactNode;
-    LeftAccessory?: React.ReactNode;
-    label?: string;
-    error?: string;
-    containerStyle?: ViewStyle;
-    inputContainerStyle?: ViewStyle;
-    isMandatory?: boolean;
-    labelStyle?: TextStyle;
-}
+const InputComponent = forwardRef<InputRef, InputProps>(
+    (
+        {
+            accessibilityHint,
+            accessibilityLabel,
+            accessibilityState,
+            containerStyle,
+            disabled = false,
+            editable,
+            endAccessory,
+            errorText,
+            errorTextProps,
+            helperText,
+            helperTextProps,
+            inputContainerStyle,
+            invalid = false,
+            label,
+            labelProps,
+            multiline,
+            onBlur,
+            onFocus,
+            passwordToggle,
+            placeholderTextColor,
+            secureTextEntry,
+            startAccessory,
+            style,
+            ...nativeProps
+        },
+        ref,
+    ) => {
+        const {
+            canTogglePassword,
+            errorColor,
+            errorVariant,
+            helperColor,
+            helperVariant,
+            labelColor,
+            labelVariant,
+            onInputBlur,
+            onInputFocus,
+            onPasswordVisibilityToggle,
+            passwordAction,
+            passwordHitSlop,
+            resolvedAccessibilityHint,
+            resolvedAccessibilityLabel,
+            resolvedAccessibilityState,
+            resolvedEditable,
+            resolvedPlaceholderTextColor,
+            resolvedSecureTextEntry,
+            showHelperText,
+            styles,
+            textInputStyle,
+        } = useInputPresenter({
+            accessibilityHint,
+            accessibilityLabel,
+            accessibilityState,
+            disabled,
+            editable,
+            errorText,
+            errorTextProps,
+            helperText,
+            helperTextProps,
+            invalid,
+            label,
+            labelProps,
+            multiline,
+            onBlur,
+            onFocus,
+            passwordToggle,
+            placeholderTextColor,
+            secureTextEntry,
+            style,
+        });
 
-export const NLTInput = memo(forwardRef<TextInput, NLTInputProps>((
-    { label, error, RightAccessory, LeftAccessory, containerStyle, secureTextEntry, inputContainerStyle, isMandatory, labelStyle, ...props },
-    ref,
-) => {
-    const { colors } = useUIKitTheme();
-    const { isFocused, isPasswordVisible, setPasswordVisible, handleFocus, handleBlur, inputRef } =
-        useNLTInput({ secureTextEntry, ...props }, ref);
-    const styles = useMemo(() => getStyles(colors, isFocused), [colors, isFocused]);
+        return (
+            <View style={[styles.container, containerStyle]}>
+                {label ? (
+                    <View style={styles.labelContainer}>
+                        <Typography
+                            {...labelProps}
+                            text={label}
+                            variant={labelVariant}
+                            color={labelColor}
+                            style={labelProps?.style}
+                        />
+                    </View>
+                ) : null}
 
-    return (
-        <View style={[styles.container, containerStyle]}>
-            {!!label && (
-                <View style={styles.labelContainer}>
-                    <Text style={[styles.label, labelStyle]} >{label}</Text>
-                    {isMandatory && (
-                        <Text style={[styles.label, labelStyle]} >*</Text>
-                    )}
+                <View style={[styles.field, inputContainerStyle]}>
+                    {startAccessory != null ? <View style={styles.startAccessory}>{startAccessory}</View> : null}
+                    <TextInput
+                        {...nativeProps}
+                        ref={ref}
+                        accessibilityLabel={resolvedAccessibilityLabel}
+                        accessibilityHint={resolvedAccessibilityHint}
+                        accessibilityState={resolvedAccessibilityState}
+                        editable={resolvedEditable}
+                        multiline={multiline}
+                        placeholderTextColor={resolvedPlaceholderTextColor}
+                        secureTextEntry={resolvedSecureTextEntry}
+                        onFocus={onInputFocus}
+                        onBlur={onInputBlur}
+                        style={textInputStyle}
+                    />
+                    {endAccessory != null ? <View style={styles.endAccessory}>{endAccessory}</View> : null}
+                    {canTogglePassword && passwordAction ? (
+                        <Pressable
+                            accessibilityRole="button"
+                            accessibilityLabel={passwordAction.label}
+                            disabled={disabled}
+                            hitSlop={passwordHitSlop}
+                            onPress={onPasswordVisibilityToggle}
+                            style={styles.passwordToggle}
+                        >
+                            {passwordAction.icon}
+                        </Pressable>
+                    ) : null}
                 </View>
-            )}
-            <View style={[styles.inputContainer, inputContainerStyle, error && styles.inputError]}>
-                {LeftAccessory}
-                <TextInput
-                    ref={inputRef}
-                    {...props}
-                    style={[styles.input, props.multiline && styles.inputMultiline, props.style]}
-                    placeholderTextColor={colors.text_light + 'CC'}
-                    secureTextEntry={secureTextEntry && isPasswordVisible}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                />
-                {RightAccessory}
-                {/* {typeof secureTextEntry === 'boolean' && (
-                    <TouchableOpacity
-                        onPress={() => setPasswordVisible(!isPasswordVisible)}
-                        style={styles.iconContainer}
-                        hitSlop={10}
-                    >
-                        {isPasswordVisible ? (
-                            <Eye color={colors.icon_strong} pointerEvents="none" />
-                        ) : (
-                            <EyeOff color={colors.icon_strong} pointerEvents="none" />
-                        )}
-                    </TouchableOpacity>
-                )} */}
+
+                {errorText ? (
+                    <Typography
+                        {...errorTextProps}
+                        text={errorText}
+                        variant={errorVariant}
+                        color={errorColor}
+                        accessibilityRole="alert"
+                        accessibilityLiveRegion="polite"
+                        style={[styles.supportingText, errorTextProps?.style]}
+                    />
+                ) : showHelperText && helperText ? (
+                    <Typography
+                        {...helperTextProps}
+                        text={helperText}
+                        variant={helperVariant}
+                        color={helperColor}
+                        style={[styles.supportingText, helperTextProps?.style]}
+                    />
+                ) : null}
             </View>
-            {!!error && <Text style={styles.errorText}>{error}</Text>}
-        </View>
-    );
-},
-),
+        );
+    },
 );
 
-NLTInput.displayName = 'NLTInput';
+InputComponent.displayName = 'Input';
+
+export const Input = memo(InputComponent);
