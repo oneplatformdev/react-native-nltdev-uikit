@@ -76,5 +76,37 @@
       "../../theme": "react-native-ntldev-uikit",
       "../../utils": "react-native-ntldev-uikit"
     }
+  },
+  "header-with-back-button": {
+    "folder": "HeaderWithBackButton",
+    "files": ["HeaderWithBackButton.tsx", "styles.ts", "types.ts", "index.ts"],
+    "componentDependencies": ["typography"],
+    "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UISpacing", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "rewrites": {
+      "../../theme": "react-native-ntldev-uikit",
+      "../../utils": "react-native-ntldev-uikit"
+    }
+  },
+  "loader": {
+    "folder": "Loader",
+    "files": ["Loader.tsx", "styles.ts", "types.ts", "index.ts"],
+    "componentDependencies": [],
+    "foundations": ["useUITheme", "UIColors"],
+    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "rewrites": {
+      "../../theme": "react-native-ntldev-uikit"
+    }
+  },
+  "logger": {
+    "folder": "Logger",
+    "files": ["Logger.tsx", "LoggerItem.tsx", "groupLoggerEntries.ts", "loggerPresentation.ts", "useLogger.ts", "styles.ts", "types.ts", "index.ts"],
+    "componentDependencies": ["typography"],
+    "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UIRadius", "UISpacing", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-safe-area-context"],
+    "rewrites": {
+      "../../theme": "react-native-ntldev-uikit",
+      "../../utils": "react-native-ntldev-uikit"
+    }
   }
 }

@@ -32,6 +32,9 @@ npx react-native-ntldev-uikit add screen-container
 npx react-native-ntldev-uikit add custom-alert
 npx react-native-ntldev-uikit add bottom-modal
 npx react-native-ntldev-uikit add connection-container
+npx react-native-ntldev-uikit add header-with-back-button
+npx react-native-ntldev-uikit add loader
+npx react-native-ntldev-uikit add logger
 npx react-native-ntldev-uikit add button --dir src/UIKit
 ```
 
@@ -39,7 +42,7 @@ The default destination is `src/components/ui/<Component>/`; `--dir` changes its
 
 The application owns and may freely change the copied implementation—structure, API, layout, animation, and behavior—without editing `node_modules` or changing the upstream package. Package upgrades do **not** update copied source. There is no diff/update command yet. Use this mode for substantial project-specific divergence, not ordinary color or spacing changes already supported by the theme.
 
-Owned Button, Input, CustomAlert, BottomModal, and ConnectionContainer import sibling local Typography. Their `add` commands install Typography automatically when missing; a compatible existing owned Typography is reused untouched. An incomplete or incompatible dependency aborts the command without installing the requested component. Copied components are actual sources, not wrappers around their package-mode counterparts. They still require the package for theme/scaling foundations; no project alias is required.
+Owned Button, Input, CustomAlert, BottomModal, ConnectionContainer, and HeaderWithBackButton import sibling local Typography. Their `add` commands install Typography automatically when missing; a compatible existing owned Typography is reused untouched. An incomplete or incompatible dependency aborts the command without installing the requested component. Copied components are actual sources, not wrappers around their package-mode counterparts. They still require the package for theme/scaling foundations; no project alias is required.
 
 For Button, Typography, Input, future form controls, sheets, and other reusable primitives, documentation should cover: package import, basic usage, main props, theme customization, advanced/custom content, and owned-source availability. Components should serve both modes without becoming unlimited-configuration abstractions; source ownership is the escape hatch for major changes.
 
@@ -305,3 +308,70 @@ Both modes require consumers to install the declared native peers used by these 
 ## ConnectionContainer
 
 `ConnectionContainer` displays a dismissible safe-area banner above optional children. The application supplies `isConnected` (`true`, `false`, or `null` while unknown), localized `disconnectedText`/`reconnectedText`, and optional icons. The kit does not subscribe to a network library. Like the reference behavior, sustained disconnection appears after three seconds; a reconnection banner appears only after an offline banner was shown and hides after three seconds. Supply `dismissAccessibilityHint` if the dismiss action needs additional spoken context.
+
+## HeaderWithBackButton and Loader
+
+`HeaderWithBackButton` uses caller-owned navigation, icon, and accessibility text. It defaults to a left-aligned title; center mode keeps the title centered across the whole header even when side controls have different widths. The parent (for example `ScreenContainer`) owns safe-area insets.
+
+```tsx
+import { HeaderWithBackButton, Loader } from 'react-native-ntldev-uikit';
+
+<HeaderWithBackButton
+  title="Details"
+  backIcon={<BackIcon />}
+  backAccessibilityLabel="Back"
+  onBackPress={goBack}
+/>
+<HeaderWithBackButton
+  title="Account"
+  titleAlign="center"
+  titleVariant="title"
+  titleSize={19}
+  backIcon={<BackIcon />}
+  backAccessibilityLabel="Back"
+  onBackPress={goBack}
+  rightAccessory={<SettingsAction />}
+/>
+
+<Loader accessibilityLabel="Loading" />
+<Loader indicator={<MyAnimatedLoader />} transparent accessibilityLabel="Loading" />
+```
+
+`Loader` is an absolute, container-filling overlay by default; `inline` keeps it in layout. The caller controls whether it is rendered. A custom `indicator` completely replaces the default `ActivityIndicator` without requiring extra dependencies.
+
+## Logger
+
+Logger displays application-owned entries; it does not collect, store, or sanitize logs. Pass newest-first entries and control visibility outside the component:
+
+```tsx
+import { Logger, type LoggerEntry } from 'react-native-ntldev-uikit';
+
+const logs: LoggerEntry[] = [
+  { id: 'response-1', type: 'response', name: 'POST /messages', message: '{"ok":true}',
+    http: { correlationId: 'call-1', phase: 'response', status: 201, durationMs: 842 } },
+  { id: 'request-1', type: 'request', name: 'POST /messages', message: '',
+    requestData: { params: 'page: 1', body: '{"text":"hello"}' },
+    http: { correlationId: 'call-1', phase: 'request' } },
+  { id: 'event-1', type: 'info', name: 'Sync', message: 'Finished' },
+];
+
+<Logger
+  logs={logs}
+  visible={visible}
+  onOpen={() => setVisible(true)}
+  onClose={() => setVisible(false)}
+  onClear={() => setLogs([])}
+  onCopyEntry={(_entry, text) => copyLogText(text)}
+  labels={{ title: 'Logs', clear: 'Clear', close: 'Close', empty: 'No logs',
+    request: 'Request', response: 'Response', params: 'Params', body: 'Body',
+    payload: 'Payload', status: 'Status', copy: 'Copy' }}
+/>
+```
+
+Entries with the same unique `http.correlationId` form one block, with request above response even when storage is newest-first. Each entry keeps its own collapsed-by-default expansion state; pending requests and orphan responses remain visible. Long payload text is selectable, with no clipboard dependency or combined exchange-copy action. Omit `onClear` to hide the clear action; omit `onOpen` if the application supplies its own launcher. The application owns HTTP correlation IDs and any development-only mount policy. Owned source is available with `npx react-native-ntldev-uikit add logger` (which also installs local Typography).
+
+HTTP sections use `request` and `response` labels for accessibility, not visible headings. Response status and duration come from structured `http` metadata. Blank messages have no expand action; applications should pass an empty message for absent payloads.
+
+Applications can supply sanitized, display-ready `requestData.params` and `requestData.body` separately from the response `message`. A request section appears only when it has params, body, or a legacy request message. Params are visible without expanding; bodies and response payloads expand independently. `onCopyEntry` receives the individual entry and its copyable text, even while collapsed; `copyIcon` is optional. The application performs the clipboard write and handles any feedback or failure.
+
+Params-only requests show params with a top-aligned copy action and no expand control. A collapsed request body is identified by the caller-provided `payload` label; `body` still labels the combined params/body copy text. The caller-provided `status` label precedes structured response metadata, while only the numeric status receives a semantic theme color: 2xx `success`, 3xx `icon`, 4xx `warning`, 5xx `error`, and other values `text`.
