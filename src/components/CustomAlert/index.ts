@@ -1,2 +1,2 @@
-export { CustomAlert } from './CustomAlert';
-export type { CustomAlertCloseAction, CustomAlertProps } from './types';
+export { CustomAlert } from './ui/CustomAlert';
+export type { CustomAlertCloseAction, CustomAlertProps } from './types/types';

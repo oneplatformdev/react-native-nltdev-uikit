@@ -1,112 +1,113 @@
 {
   "typography": {
     "folder": "Typography",
-    "files": ["Typography.tsx", "useTypography.ts", "types.ts", "index.ts"],
+    "files": ["ui/Typography.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
-    "publicExports": { "Typography": "Typography.tsx", "TypographyProps": "types.ts" },
+    "publicExports": { "Typography": "ui/Typography.tsx", "TypographyProps": "types/types.ts" },
     "foundations": ["useUITheme", "useScaling", "UIColorKey", "UIFontKey", "TypographyVariant", "UITypographyToken"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "button": {
     "folder": "Button",
-    "files": ["Button.tsx", "ButtonPresenter.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/Button.tsx", "presenters/useButton.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UIButtonSizeTheme", "UIButtonVariantTheme", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "input": {
     "folder": "Input",
-    "files": ["Input.tsx", "InputPresenter.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/Input.tsx", "presenters/useInput.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UIFonts", "UIInputTheme", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "screen-container": {
     "folder": "ScreenContainer",
-    "files": ["ScreenContainer.tsx", "useScreenContainer.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/ScreenContainer.tsx", "presenters/useScreenContainer.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
-    "foundations": ["useUITheme", "useScaling", "UIColors"],
+    "foundations": ["useUITheme", "useScaling", "UIColors", "UISpacing", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-keyboard-controller", "react-native-linear-gradient", "react-native-safe-area-context"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "custom-alert": {
     "folder": "CustomAlert",
-    "files": ["CustomAlert.tsx", "CustomAlertPresenter.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/CustomAlert.tsx", "presenters/useCustomAlert.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "UIRadius", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "bottom-modal": {
     "folder": "BottomModal",
-    "files": ["BottomModal.tsx", "BottomModalPresenter.ts", "useBottomModalInsets.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/BottomModal.tsx", "presenters/useBottomModal.ts", "presenters/useBottomModalInsets.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "UIRadius", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-keyboard-controller", "react-native-reanimated", "react-native-safe-area-context"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "connection-container": {
     "folder": "ConnectionContainer",
-    "files": ["ConnectionContainer.tsx", "useConnectionContainer.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/ConnectionContainer.tsx", "presenters/useConnectionContainer.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-safe-area-context"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "header-with-back-button": {
     "folder": "HeaderWithBackButton",
-    "files": ["HeaderWithBackButton.tsx", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/HeaderWithBackButton.tsx", "ui/styles.ts", "presenters/useHeaderWithBackButton.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UISpacing", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   },
   "loader": {
     "folder": "Loader",
-    "files": ["Loader.tsx", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/Loader.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
     "foundations": ["useUITheme", "UIColors"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit"
     }
   },
   "logger": {
     "folder": "Logger",
-    "files": ["Logger.tsx", "LoggerItem.tsx", "groupLoggerEntries.ts", "loggerPresentation.ts", "useLogger.ts", "styles.ts", "types.ts", "index.ts"],
+    "files": ["ui/Logger.tsx", "ui/components/LoggerItem.tsx", "utils/groupLoggerEntries.ts", "utils/loggerPresentation.ts", "presenters/useLogger.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UIRadius", "UISpacing", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-safe-area-context"],
     "rewrites": {
-      "../../theme": "react-native-ntldev-uikit",
-      "../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "react-native-ntldev-uikit",
+      "../../../../theme": "react-native-ntldev-uikit",
+      "../../../utils": "react-native-ntldev-uikit"
     }
   }
 }
