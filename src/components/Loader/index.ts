@@ -1,2 +1,2 @@
-export { Loader } from './Loader';
-export type { LoaderProps } from './types';
+export { Loader } from './ui/Loader';
+export type { LoaderProps } from './types/types';

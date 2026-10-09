@@ -1,2 +1,2 @@
-export { BottomModal } from './BottomModal';
-export type { BottomModalCloseAction, BottomModalProps } from './types';
+export { BottomModal } from './ui/BottomModal';
+export type { BottomModalCloseAction, BottomModalProps } from './types/types';

@@ -1,2 +1,2 @@
-export { HeaderWithBackButton } from './HeaderWithBackButton';
-export type { HeaderWithBackButtonProps } from './types';
+export { HeaderWithBackButton } from './ui/HeaderWithBackButton';
+export type { HeaderWithBackButtonProps } from './types/types';

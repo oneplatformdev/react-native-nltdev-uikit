@@ -132,7 +132,7 @@ const renderComponent = name => {
     const requiredComponentImports = [];
 
     for (const file of entry.files) {
-        if (path.basename(file) !== file || !/^[A-Za-z][A-Za-z0-9.]+$/.test(file) || files.has(file)) {
+        if (file.split('/').some(part => !/^[A-Za-z][A-Za-z0-9.]*$/.test(part)) || files.has(file)) {
             throw new Error(`Invalid source file in ${name} registry: ${file}`);
         }
         const sourcePath = path.join(packageRoot, 'src', 'components', entry.folder, file);
@@ -152,7 +152,7 @@ const renderComponent = name => {
             return match.replace(`${quote}${specifier}${quote}`, `${quote}${replacement}${quote}`);
         });
         source = consolidateImports(source);
-        if (file === `${entry.folder}.tsx`) {
+        if (file === `ui/${entry.folder}.tsx`) {
             source = '// Copied from react-native-ntldev-uikit. Project-owned; package upgrades do not update this file.\n' + source;
         }
         files.set(file, source);
@@ -329,7 +329,9 @@ const install = (cwd, name, dir) => {
             const stagedFolder = path.join(stage, target.entry.folder);
             fs.mkdirSync(stagedFolder);
             for (const [file, source] of target.files) {
-                fs.writeFileSync(path.join(stagedFolder, file), source, { flag: 'wx' });
+                const stagedFile = path.join(stagedFolder, file);
+                fs.mkdirSync(path.dirname(stagedFile), { recursive: true });
+                fs.writeFileSync(stagedFile, source, { flag: 'wx' });
             }
         }
         for (const parent of parents.reverse()) fs.mkdirSync(parent);

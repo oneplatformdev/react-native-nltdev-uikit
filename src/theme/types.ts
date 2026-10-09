@@ -1,5 +1,5 @@
 import type { TextStyle } from 'react-native';
-import type { ButtonSize, ButtonVariant } from '../components/Button/types';
+import type { ButtonSize, ButtonVariant } from '../components/Button/types/types';
 
 export type ThemeMode = 'light' | 'dark';
 

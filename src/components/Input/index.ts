@@ -1,8 +1,8 @@
-export { Input } from './Input';
+export { Input } from './ui/Input';
 export type {
     InputPasswordToggle,
     InputPasswordToggleAction,
     InputProps,
     InputRef,
     InputTextProps,
-} from './types';
+} from './types/types';

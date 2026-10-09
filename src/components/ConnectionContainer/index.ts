@@ -1,2 +1,2 @@
-export { ConnectionContainer } from './ConnectionContainer';
-export type { ConnectionContainerProps } from './types';
+export { ConnectionContainer } from './ui/ConnectionContainer';
+export type { ConnectionContainerProps } from './types/types';
