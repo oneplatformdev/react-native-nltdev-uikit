@@ -6,10 +6,10 @@ Reusable React Native theme, scaling, and UI components.
 
 ### Package mode — available now
 
-Install with `npm install react-native-ntldev-uikit` and import ready-made components:
+Install with `npm install @oneplatformdev/react-native-uikit` and import ready-made components:
 
 ```tsx
-import { Button, Input, Typography, UIProvider } from 'react-native-ntldev-uikit';
+import { Button, Input, Typography, UIProvider } from '@oneplatformdev/react-native-uikit';
 
 <UIProvider>
   <Typography text="Hello" />
@@ -22,20 +22,20 @@ Choose package mode when theme tokens and public props cover the design and rece
 
 ### Owned/local source mode — available now
 
-Run from the consuming project root after declaring `react-native-ntldev-uikit`, `react`, and `react-native` in its `package.json`:
+Run from the consuming project root after declaring `@oneplatformdev/react-native-uikit`, `react`, and `react-native` in its `package.json`:
 
 ```sh
-npx react-native-ntldev-uikit add typography
-npx react-native-ntldev-uikit add button
-npx react-native-ntldev-uikit add input
-npx react-native-ntldev-uikit add screen-container
-npx react-native-ntldev-uikit add custom-alert
-npx react-native-ntldev-uikit add bottom-modal
-npx react-native-ntldev-uikit add connection-container
-npx react-native-ntldev-uikit add header-with-back-button
-npx react-native-ntldev-uikit add loader
-npx react-native-ntldev-uikit add logger
-npx react-native-ntldev-uikit add button --dir src/UIKit
+npx @oneplatformdev/react-native-uikit add typography
+npx @oneplatformdev/react-native-uikit add button
+npx @oneplatformdev/react-native-uikit add input
+npx @oneplatformdev/react-native-uikit add screen-container
+npx @oneplatformdev/react-native-uikit add custom-alert
+npx @oneplatformdev/react-native-uikit add bottom-modal
+npx @oneplatformdev/react-native-uikit add connection-container
+npx @oneplatformdev/react-native-uikit add header-with-back-button
+npx @oneplatformdev/react-native-uikit add loader
+npx @oneplatformdev/react-native-uikit add logger
+npx @oneplatformdev/react-native-uikit add button --dir src/UIKit
 ```
 
 The default destination is `src/components/ui/<Component>/`; `--dir` changes its root, so the last command creates `src/UIKit/Typography/` and `src/UIKit/Button/`. No `init` command or configuration file is needed. The CLI refuses existing requested target folders, never overwrites, has no `--force`, and does not install npm dependencies. It reports missing declarations before copying.
@@ -99,7 +99,7 @@ import {
   type DefaultUIRadius,
   type DefaultUISpacing,
   type DefaultUITypography,
-} from 'react-native-ntldev-uikit';
+} from '@oneplatformdev/react-native-uikit';
 import { colors, fonts, radius, spacing, typography } from './tokens';
 
 type ProjectColorExtensions = Omit<typeof colors, keyof DefaultUIColors>;
@@ -108,7 +108,7 @@ type ProjectRadiusExtensions = Omit<typeof radius, keyof DefaultUIRadius>;
 type ProjectSpacingExtensions = Omit<typeof spacing, keyof DefaultUISpacing>;
 type ProjectTypographyExtensions = Omit<typeof typography, keyof DefaultUITypography>;
 
-declare module 'react-native-ntldev-uikit' {
+declare module '@oneplatformdev/react-native-uikit' {
   interface UIColorsExtension extends ProjectColorExtensions {}
   interface UIFontsExtension extends ProjectFontExtensions {}
   interface UIRadiusExtension extends ProjectRadiusExtensions {}
@@ -192,18 +192,18 @@ Applications without localization omit the prop. Calling `useUILocalization()` w
 
 ## Typography
 
-Package import: `import { Typography } from 'react-native-ntldev-uikit'`.
+Package import: `import { Typography } from '@oneplatformdev/react-native-uikit'`.
 
 ```tsx
 <Typography text="Hello" variant="body" />
 <Typography variant="body">Hello</Typography>
 ```
 
-Prefer `text` (`string | number`) for simple content. Use `children` for composed or custom content; TypeScript disallows supplying both, and neither is also valid. Typography retains React Native `TextProps`, styles, and ref forwarding. Its main visual props are `variant`, `weight`, `color`, `size`, and `lineHeight`; caller `style` is applied last. Customize its typography/font/color tokens through `createTheme` and the extension interfaces described above. Owned/local source installation: **available** with `npx react-native-ntldev-uikit add typography`.
+Prefer `text` (`string | number`) for simple content. Use `children` for composed or custom content; TypeScript disallows supplying both, and neither is also valid. Typography retains React Native `TextProps`, styles, and ref forwarding. Its main visual props are `variant`, `weight`, `color`, `size`, and `lineHeight`; caller `style` is applied last. Customize its typography/font/color tokens through `createTheme` and the extension interfaces described above. Owned/local source installation: **available** with `npx @oneplatformdev/react-native-uikit add typography`.
 
 ## Button
 
-Package import: `import { Button } from 'react-native-ntldev-uikit'`. Prefer `text` for ordinary labels:
+Package import: `import { Button } from '@oneplatformdev/react-native-uikit'`. Prefer `text` for ordinary labels:
 
 ```tsx
 <Button text="Continue" onPress={onContinue} />
@@ -261,11 +261,11 @@ Custom ReactNode children are rendered unchanged and bypass `labelProps`. Give c
 </Button>
 ```
 
-Owned/local source installation for Button: **available** with `npx react-native-ntldev-uikit add button`. Use package props/theme for ordinary visual changes and owned source when structure or behavior must diverge substantially.
+Owned/local source installation for Button: **available** with `npx @oneplatformdev/react-native-uikit add button`. Use package props/theme for ordinary visual changes and owned source when structure or behavior must diverge substantially.
 
 ## Input
 
-Package import: `import { Input } from 'react-native-ntldev-uikit'`.
+Package import: `import { Input } from '@oneplatformdev/react-native-uikit'`.
 
 ```tsx
 <Input label="Email" value={email} onChangeText={onChangeEmail} placeholder="name@example.com" />
@@ -293,7 +293,7 @@ Use logical `startAccessory` and `endAccessory` for caller-owned icons or other 
 
 Input derives its native accessibility label from `label` only when the caller omits `accessibilityLabel`; placeholders are not accessible-name substitutes. Explicit accessibility props win. Supply a meaningful `accessibilityLabel` for unlabeled fields. Input does not translate strings or validate values. Configure its colors, geometry, and typography through partial `createTheme({ input: { ... } })` overrides; color/font/variant references remain typed theme tokens and numeric dimensions remain unscaled design values.
 
-Owned/local source installation for Input: **available** with `npx react-native-ntldev-uikit add input`.
+Owned/local source installation for Input: **available** with `npx @oneplatformdev/react-native-uikit add input`.
 
 ## ScreenContainer, CustomAlert, and BottomModal
 
@@ -314,7 +314,7 @@ Both modes require consumers to install the declared native peers used by these 
 `HeaderWithBackButton` uses caller-owned navigation, icon, and accessibility text. It defaults to a left-aligned title; center mode keeps the title centered across the whole header even when side controls have different widths. The parent (for example `ScreenContainer`) owns safe-area insets.
 
 ```tsx
-import { HeaderWithBackButton, Loader } from 'react-native-ntldev-uikit';
+import { HeaderWithBackButton, Loader } from '@oneplatformdev/react-native-uikit';
 
 <HeaderWithBackButton
   title="Details"
@@ -344,7 +344,7 @@ import { HeaderWithBackButton, Loader } from 'react-native-ntldev-uikit';
 Logger displays application-owned entries; it does not collect, store, or sanitize logs. Pass newest-first entries and control visibility outside the component:
 
 ```tsx
-import { Logger, type LoggerEntry } from 'react-native-ntldev-uikit';
+import { Logger, type LoggerEntry } from '@oneplatformdev/react-native-uikit';
 
 const logs: LoggerEntry[] = [
   { id: 'response-1', type: 'response', name: 'POST /messages', message: '{"ok":true}',
@@ -368,7 +368,7 @@ const logs: LoggerEntry[] = [
 />
 ```
 
-Entries with the same unique `http.correlationId` form one block, with request above response even when storage is newest-first. Each entry keeps its own collapsed-by-default expansion state; pending requests and orphan responses remain visible. Long payload text is selectable, with no clipboard dependency or combined exchange-copy action. Omit `onClear` to hide the clear action; omit `onOpen` if the application supplies its own launcher. The application owns HTTP correlation IDs and any development-only mount policy. Owned source is available with `npx react-native-ntldev-uikit add logger` (which also installs local Typography).
+Entries with the same unique `http.correlationId` form one block, with request above response even when storage is newest-first. Each entry keeps its own collapsed-by-default expansion state; pending requests and orphan responses remain visible. Long payload text is selectable, with no clipboard dependency or combined exchange-copy action. Omit `onClear` to hide the clear action; omit `onOpen` if the application supplies its own launcher. The application owns HTTP correlation IDs and any development-only mount policy. Owned source is available with `npx @oneplatformdev/react-native-uikit add logger` (which also installs local Typography).
 
 HTTP sections use `request` and `response` labels for accessibility, not visible headings. Response status and duration come from structured `http` metadata. Blank messages have no expand action; applications should pass an empty message for absent payloads.
 

@@ -153,7 +153,7 @@ const renderComponent = name => {
         });
         source = consolidateImports(source);
         if (file === `ui/${entry.folder}.tsx`) {
-            source = '// Copied from react-native-ntldev-uikit. Project-owned; package upgrades do not update this file.\n' + source;
+            source = '// Copied from @oneplatformdev/react-native-uikit. Project-owned; package upgrades do not update this file.\n' + source;
         }
         files.set(file, source);
         validateUniqueImports(name, file, source);
