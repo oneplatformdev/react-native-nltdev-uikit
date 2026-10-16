@@ -5,10 +5,10 @@
     "componentDependencies": [],
     "publicExports": { "Typography": "ui/Typography.tsx", "TypographyProps": "types/types.ts" },
     "foundations": ["useUITheme", "useScaling", "UIColorKey", "UIFontKey", "TypographyVariant", "UITypographyToken"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "button": {
@@ -16,10 +16,10 @@
     "files": ["ui/Button.tsx", "presenters/useButton.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UIButtonSizeTheme", "UIButtonVariantTheme", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "input": {
@@ -27,10 +27,10 @@
     "files": ["ui/Input.tsx", "presenters/useInput.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UIFonts", "UIInputTheme", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "screen-container": {
@@ -38,10 +38,10 @@
     "files": ["ui/ScreenContainer.tsx", "presenters/useScreenContainer.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
     "foundations": ["useUITheme", "useScaling", "UIColors", "UISpacing", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-keyboard-controller", "react-native-linear-gradient", "react-native-safe-area-context"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit", "react-native-keyboard-controller", "react-native-linear-gradient", "react-native-safe-area-context"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "custom-alert": {
@@ -49,10 +49,10 @@
     "files": ["ui/CustomAlert.tsx", "presenters/useCustomAlert.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "UIRadius", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "bottom-modal": {
@@ -60,10 +60,10 @@
     "files": ["ui/BottomModal.tsx", "presenters/useBottomModal.ts", "presenters/useBottomModalInsets.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "UIRadius", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-keyboard-controller", "react-native-reanimated", "react-native-safe-area-context"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit", "react-native-keyboard-controller", "react-native-reanimated", "react-native-safe-area-context"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "connection-container": {
@@ -71,10 +71,10 @@
     "files": ["ui/ConnectionContainer.tsx", "presenters/useConnectionContainer.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-safe-area-context"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit", "react-native-safe-area-context"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "header-with-back-button": {
@@ -82,10 +82,10 @@
     "files": ["ui/HeaderWithBackButton.tsx", "ui/styles.ts", "presenters/useHeaderWithBackButton.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UISpacing", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
   "loader": {
@@ -93,9 +93,9 @@
     "files": ["ui/Loader.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
     "foundations": ["useUITheme", "UIColors"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit"
     }
   },
   "logger": {
@@ -103,11 +103,11 @@
     "files": ["ui/Logger.tsx", "ui/components/LoggerItem.tsx", "utils/groupLoggerEntries.ts", "utils/loggerPresentation.ts", "presenters/useLogger.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UIRadius", "UISpacing", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "react-native-ntldev-uikit", "react-native-safe-area-context"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit", "react-native-safe-area-context"],
     "rewrites": {
-      "../../../theme": "react-native-ntldev-uikit",
-      "../../../../theme": "react-native-ntldev-uikit",
-      "../../../utils": "react-native-ntldev-uikit"
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   }
 }
