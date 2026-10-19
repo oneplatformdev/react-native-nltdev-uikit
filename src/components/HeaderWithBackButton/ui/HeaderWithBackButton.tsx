@@ -21,6 +21,7 @@ export const HeaderWithBackButton = ({
     titleSize,
     subtitleVariant = 'caption',
     subtitleSize,
+    subtitleNumberOfLines = 1,
     style,
     contentStyle,
 }: HeaderWithBackButtonProps) => {
@@ -71,7 +72,7 @@ export const HeaderWithBackButton = ({
                         text={subtitle}
                         variant={subtitleVariant}
                         size={subtitleSize}
-                        numberOfLines={1}
+                        numberOfLines={subtitleNumberOfLines}
                         style={[styles.subtitle, centered && styles.centeredText]}
                     />
                 ) : null}

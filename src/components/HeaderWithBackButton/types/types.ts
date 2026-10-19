@@ -16,6 +16,7 @@ export interface HeaderWithBackButtonProps {
     titleSize?: TypographyProps['size'];
     subtitleVariant?: TypographyProps['variant'];
     subtitleSize?: TypographyProps['size'];
+    subtitleNumberOfLines?: number;
     style?: StyleProp<ViewStyle>;
     contentStyle?: StyleProp<ViewStyle>;
 }
