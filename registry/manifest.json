@@ -49,7 +49,7 @@
     "files": ["ui/CustomAlert.tsx", "presenters/useCustomAlert.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
     "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UISpacing", "UIRadius", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit", "react-native-keyboard-controller"],
     "rewrites": {
       "../../../theme": "@oneplatformdev/react-native-uikit",
       "../../../utils": "@oneplatformdev/react-native-uikit"

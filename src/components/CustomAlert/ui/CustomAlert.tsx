@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Animated, Modal, Pressable, ScrollView, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { Typography } from '../../Typography';
 import { useUITheme } from '../../../theme';
 import { useScaling } from '../../../utils';
@@ -14,6 +15,7 @@ export const CustomAlert = ({
     children,
     footer,
     showHandle = false,
+    isKeyboardAvoiding = false,
     closeAction,
     style,
     contentStyle,
@@ -31,7 +33,7 @@ export const CustomAlert = ({
 
     return (
         <Modal visible={isVisible} transparent animationType="none" statusBarTranslucent onRequestClose={onClosePress}>
-            <View style={styles.modalContainer}>
+            <KeyboardAvoidingView enabled={isKeyboardAvoiding} behavior="padding" style={styles.modalContainer}>
                 <Animated.View pointerEvents="none" style={[styles.backdrop, backdropStyle]} />
                 <Pressable
                     accessible={false}
@@ -45,7 +47,7 @@ export const CustomAlert = ({
                     onAccessibilityEscape={onClosePress}
                     style={[styles.alertContainer, alertStyle, style]}
                 >
-                    <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+                    <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
                         {showHandle ? <View style={styles.handle} /> : null}
                         {header != null || closeAction ? (
                             <View style={styles.header}>
@@ -71,7 +73,7 @@ export const CustomAlert = ({
                         {footer != null ? <View style={styles.footer}>{footer}</View> : null}
                     </ScrollView>
                 </Animated.View>
-            </View>
+            </KeyboardAvoidingView>
         </Modal>
     );
 };

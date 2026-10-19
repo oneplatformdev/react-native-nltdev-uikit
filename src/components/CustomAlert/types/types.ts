@@ -14,6 +14,7 @@ export interface CustomAlertProps {
     children?: ReactNode;
     footer?: ReactNode;
     showHandle?: boolean;
+    isKeyboardAvoiding?: boolean;
     closeAction?: CustomAlertCloseAction;
     style?: StyleProp<ViewStyle>;
     contentStyle?: StyleProp<ViewStyle>;
