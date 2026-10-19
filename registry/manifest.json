@@ -11,11 +11,67 @@
       "../../../utils": "@oneplatformdev/react-native-uikit"
     }
   },
+  "avatar": {
+    "folder": "Avatar",
+    "files": ["ui/Avatar.tsx", "presenters/useAvatar.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": ["typography"],
+    "foundations": ["useUITheme", "useScaling", "Typography", "UIColors", "UIRadius", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "rewrites": {
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
+    }
+  },
   "button": {
     "folder": "Button",
     "files": ["ui/Button.tsx", "presenters/useButton.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": ["typography"],
+    "publicExports": { "Button": "ui/Button.tsx", "ButtonProps": "types/types.ts" },
     "foundations": ["useUITheme", "useScaling", "Typography", "TypographyProps", "UIColors", "UIButtonSizeTheme", "UIButtonVariantTheme", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "rewrites": {
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
+    }
+  },
+  "checkbox": {
+    "folder": "Checkbox",
+    "files": ["ui/Checkbox.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": [],
+    "foundations": ["useUITheme", "useScaling", "UIColors", "UIRadius", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "rewrites": {
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
+    }
+  },
+  "switch": {
+    "folder": "Switch",
+    "files": ["ui/Switch.tsx", "presenters/useSwitch.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": [],
+    "foundations": ["useUITheme", "useScaling", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "react-native-reanimated", "@oneplatformdev/react-native-uikit"],
+    "rewrites": {
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
+    }
+  },
+  "photo-preview": {
+    "folder": "PhotoPreview",
+    "files": ["ui/PhotoPreview.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": [],
+    "foundations": ["useUITheme", "useScaling", "UIColors", "UIRadius", "UISpacing", "ScalingFunctions"],
+    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "rewrites": {
+      "../../../theme": "@oneplatformdev/react-native-uikit",
+      "../../../utils": "@oneplatformdev/react-native-uikit"
+    }
+  },
+  "empty-list-view": {
+    "folder": "EmptyListView",
+    "files": ["ui/EmptyListView.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": ["typography", "button"],
+    "foundations": ["useUITheme", "useScaling", "Typography", "Button", "TypographyProps", "UISpacing", "ScalingFunctions"],
     "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
       "../../../theme": "@oneplatformdev/react-native-uikit",

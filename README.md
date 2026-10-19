@@ -9,12 +9,17 @@ Reusable React Native theme, scaling, and UI components.
 Install with `npm install @oneplatformdev/react-native-uikit` and import ready-made components:
 
 ```tsx
-import { Button, Input, Typography, UIProvider } from '@oneplatformdev/react-native-uikit';
+import { Avatar, Button, Checkbox, EmptyListView, Input, PhotoPreview, Switch, Typography, UIProvider } from '@oneplatformdev/react-native-uikit';
 
 <UIProvider>
   <Typography text="Hello" />
   <Input label="Name" value={name} onChangeText={setName} />
   <Button text="Continue" onPress={onContinue} />
+  <Switch value={notificationsEnabled} onValueChange={setNotificationsEnabled} accessibilityLabel="Notifications" />
+  <Checkbox checked={accepted} onValueChange={setAccepted} accessibilityLabel="Accept terms" />
+  <PhotoPreview source={{ uri: photoUri }} onPress={onOpenPhoto} accessibilityLabel="Open photo" />
+  <EmptyListView title="No items" description="Try again later" />
+  <Avatar source={{ uri: avatarUri }} name="Mykhailo Novikov" />
 </UIProvider>
 ```
 
@@ -26,15 +31,20 @@ Run from the consuming project root after declaring `@oneplatformdev/react-nativ
 
 ```sh
 npx @oneplatformdev/react-native-uikit add typography
+npx @oneplatformdev/react-native-uikit add avatar
 npx @oneplatformdev/react-native-uikit add button
+npx @oneplatformdev/react-native-uikit add checkbox
 npx @oneplatformdev/react-native-uikit add input
 npx @oneplatformdev/react-native-uikit add screen-container
+npx @oneplatformdev/react-native-uikit add switch
 npx @oneplatformdev/react-native-uikit add custom-alert
+npx @oneplatformdev/react-native-uikit add empty-list-view
 npx @oneplatformdev/react-native-uikit add bottom-modal
 npx @oneplatformdev/react-native-uikit add connection-container
 npx @oneplatformdev/react-native-uikit add header-with-back-button
 npx @oneplatformdev/react-native-uikit add loader
 npx @oneplatformdev/react-native-uikit add logger
+npx @oneplatformdev/react-native-uikit add photo-preview
 npx @oneplatformdev/react-native-uikit add button --dir src/UIKit
 ```
 
@@ -294,6 +304,30 @@ Use logical `startAccessory` and `endAccessory` for caller-owned icons or other 
 Input derives its native accessibility label from `label` only when the caller omits `accessibilityLabel`; placeholders are not accessible-name substitutes. Explicit accessibility props win. Supply a meaningful `accessibilityLabel` for unlabeled fields. Input does not translate strings or validate values. Configure its colors, geometry, and typography through partial `createTheme({ input: { ... } })` overrides; color/font/variant references remain typed theme tokens and numeric dimensions remain unscaled design values.
 
 Owned/local source installation for Input: **available** with `npx @oneplatformdev/react-native-uikit add input`.
+
+## Switch and Checkbox
+
+Both are controlled: pass `value`/`onValueChange` to `Switch` or `checked`/`onValueChange` to `Checkbox`. They use theme colors by default, accept accessibility labels and hints, and keep a usable press target even with small visual dimensions.
+
+`Switch` defaults to a 40×24 track with a 20-unit thumb. Override `width`, `height`, `thumbSize`, track/thumb colors, or provide a custom `thumb` node. The consumer owns the custom node's appearance. The thumb animates when `value` changes.
+
+`Checkbox` defaults to a 22-unit slightly rounded square with a built-in checkmark. Override `size`, state colors, `borderWidth`, and `iconSize`/`iconColor`. Use `shape="circle"` for a radius derived from its size, or `shape="square"` with `borderRadius` (including `0`) for custom corners. Supply an `icon` node to replace the built-in indicator; the consumer owns that node's size and color.
+
+Use `interactive={false}` when Checkbox is only a visual indicator inside another pressable row. It renders a non-interactive View, does not handle touches, and leaves checked-state accessibility to the parent row. The default remains interactive.
+
+Owned source is available through `npx @oneplatformdev/react-native-uikit add switch` and `npx @oneplatformdev/react-native-uikit add checkbox`. Both are standalone components; Switch uses the existing `react-native-reanimated` peer.
+
+## PhotoPreview and EmptyListView
+
+`PhotoPreview` displays a supplied React Native image source. It defaults to a 120-unit square with the theme's medium radius. Set `width` and/or `height` for a different size; `aspectRatio` derives the missing dimension (width wins if both dimensions and a ratio are supplied). `style` is applied after the base container geometry, and `imageStyle` after the fill-image style. Supply `onPress` to make the image a button, `onRemovePress` for a separate remove control, or `overlay` for caller-owned content. A built-in × is used unless `removeIcon` is provided; supply localized accessibility labels for actions. The component does not open a modal or own image state.
+
+`EmptyListView` centers optional `visual`, `title`, and `description` in available list space. Strings and numbers use themed Typography (`title` and `body` by default); custom React nodes render as supplied. `titleStyle` and `descriptionStyle` apply to built-in text, while custom nodes own their styling. A supplied `action` replaces the built-in Button; otherwise the Button appears only when both `actionLabel` and `onActionPress` are given. The optional `accessibilityLabel` labels the visual without grouping the readable text or action.
+
+Owned source is available with `npx @oneplatformdev/react-native-uikit add photo-preview` and `npx @oneplatformdev/react-native-uikit add empty-list-view`. The latter also copies local Typography and Button dependencies.
+
+## Avatar
+
+`Avatar` accepts a React Native image `source` and defaults to a 40-unit circle. Override `size`, use `shape="square"` with `borderRadius` (including `0`), or customize `backgroundColor` and `textColor`. Fallback order is image → custom `fallback` → `fallbackText` → up to two initials from `name` → a dependency-free silhouette. If an image fails, the fallback appears; changing `source` allows the new image to load. `badge` is positioned at the edge without being clipped. Pass `onPress` for a labeled button; otherwise the avatar exposes image semantics. For a button, `accessibilityLabel` names the action and `imageAccessibilityLabel` is ignored; without `onPress`, `imageAccessibilityLabel` overrides the image label. `size` and `shape` remain authoritative over geometry in `style`/`imageStyle`. Provide localized accessibility text where needed. Owned source: `npx @oneplatformdev/react-native-uikit add avatar` (also installs local Typography).
 
 ## ScreenContainer, CustomAlert, and BottomModal
 
