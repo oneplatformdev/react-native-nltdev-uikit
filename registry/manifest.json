@@ -58,10 +58,10 @@
   },
   "photo-preview": {
     "folder": "PhotoPreview",
-    "files": ["ui/PhotoPreview.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
-    "componentDependencies": [],
+    "files": ["ui/PhotoPreview.tsx", "presenters/usePhotoPreview.ts", "ui/styles.ts", "types/types.ts", "index.ts"],
+    "componentDependencies": ["loader"],
     "foundations": ["useUITheme", "useScaling", "UIColors", "UIRadius", "UISpacing", "ScalingFunctions"],
-    "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
+    "dependencies": ["react", "react-native", "@d11/react-native-fast-image", "react-native-safe-area-context", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
       "../../../theme": "@oneplatformdev/react-native-uikit",
       "../../../utils": "@oneplatformdev/react-native-uikit"
@@ -148,6 +148,7 @@
     "folder": "Loader",
     "files": ["ui/Loader.tsx", "ui/styles.ts", "types/types.ts", "index.ts"],
     "componentDependencies": [],
+    "publicExports": { "Loader": "ui/Loader.tsx", "LoaderProps": "types/types.ts" },
     "foundations": ["useUITheme", "UIColors"],
     "dependencies": ["react", "react-native", "@oneplatformdev/react-native-uikit"],
     "rewrites": {
