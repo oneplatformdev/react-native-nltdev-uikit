@@ -319,7 +319,16 @@ Owned source is available through `npx @oneplatformdev/react-native-uikit add sw
 
 ## PhotoPreview and EmptyListView
 
-`PhotoPreview` displays a supplied React Native image source. It defaults to a 120-unit square with the theme's medium radius. Set `width` and/or `height` for a different size; `aspectRatio` derives the missing dimension (width wins if both dimensions and a ratio are supplied). `style` is applied after the base container geometry, and `imageStyle` after the fill-image style. Supply `onPress` to make the image a button, `onRemovePress` for a separate remove control, or `overlay` for caller-owned content. A built-in × is used unless `removeIcon` is provided; supply localized accessibility labels for actions. The component does not open a modal or own image state.
+`PhotoPreview` uses `@d11/react-native-fast-image` for both the thumbnail and optional fullscreen viewer. Install that native peer in the app. It accepts a FastImage source (`{ uri }` or a local `require(...)`) and passes it unchanged to both images, preserving headers, priority, and any explicit cache policy. Without `source.cache`, FastImage uses its own default `immutable` policy (URI-keyed caching); choose `source={{ uri, cache: FastImage.cacheControl.web }}` when HTTP-header-aware caching is needed. The default thumbnail is a 120-unit square with the theme's medium radius. `width`/`height` are design values; `aspectRatio` derives the missing dimension (width wins if both dimensions and a ratio are supplied). `style` applies after container geometry; `imageStyle` applies after the fill-image style. Source, resize-mode, and image-style types follow FastImage rather than React Native `Image`.
+
+```tsx
+<PhotoPreview source={{ uri }} />
+<PhotoPreview source={{ uri }} fullscreen closeAccessibilityLabel={closePhotoLabel} />
+<PhotoPreview source={{ uri }} fullscreen closeIcon={<MyCloseIcon />} loadingIndicator={<MyLoader />} />
+<PhotoPreview source={{ uri }} onRemovePress={onRemove} removeIcon={<MyRemoveIcon />} />
+```
+
+`fullscreen` is opt-in. Pressing opens one built-in Modal with a cached FastImage (`contain` by default), a centered package Loader until load or error, and a close button positioned at the unscaled top safe-area inset plus scaled design spacing. Apps using fullscreen should configure their usual `SafeAreaProvider`. Override the fullscreen background, resize mode, image style, close icon/labels, or loading indicator as needed. With `fullscreen`, `onPress` observes the same thumbnail press after opening; `onFullscreenOpen`/`onFullscreenClose` observe viewer transitions. Without `fullscreen`, `onPress` keeps its prior behavior. The independent remove action never opens fullscreen; `overlay` remains thumbnail-only. A built-in × is used if `removeIcon` or `closeIcon` is omitted. Supply localized accessibility labels for actions.
 
 `EmptyListView` centers optional `visual`, `title`, and `description` in available list space. Strings and numbers use themed Typography (`title` and `body` by default); custom React nodes render as supplied. `titleStyle` and `descriptionStyle` apply to built-in text, while custom nodes own their styling. A supplied `action` replaces the built-in Button; otherwise the Button appears only when both `actionLabel` and `onActionPress` are given. The optional `accessibilityLabel` labels the visual without grouping the readable text or action.
 
@@ -337,7 +346,7 @@ Owned source is available with `npx @oneplatformdev/react-native-uikit add photo
 
 `BottomModal` provides the reference-style slide/drag dismissal and keyboard-height-aware positioning. Supply `children`, `onClose`, and optionally `title`, `customHeader`, and a labeled `closeAction` icon. `Keyboard.dismiss()` and the close animation start together; `closeRef` can trigger the same close path externally. The kit does not render app-specific toasts.
 
-Both modes require consumers to install the declared native peers used by these components: `react-native-keyboard-controller`, `react-native-linear-gradient`, `react-native-reanimated`, and `react-native-safe-area-context`. Applications using keyboard-aware or safe-area behavior should configure the providers and native setup required by those libraries. The kit does not bundle those peers or install them through `add`.
+Both modes require consumers to install the declared native peers used by these components: `@d11/react-native-fast-image`, `react-native-keyboard-controller`, `react-native-linear-gradient`, `react-native-reanimated`, and `react-native-safe-area-context`. Applications using keyboard-aware or safe-area behavior should configure the providers and native setup required by those libraries. The kit does not bundle those peers or install them through `add`.
 
 ## ConnectionContainer
 

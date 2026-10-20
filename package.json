@@ -1,6 +1,6 @@
 {
   "name": "@oneplatformdev/react-native-uikit",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "bin": {
@@ -18,6 +18,7 @@
     "validate:registry": "node scripts/validate-registry.cjs"
   },
   "peerDependencies": {
+    "@d11/react-native-fast-image": "^8.13.0",
     "react": "*",
     "react-native": "*",
     "react-native-keyboard-controller": "^1.22.5",
@@ -26,6 +27,7 @@
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
+    "@d11/react-native-fast-image": "^8.13.0",
     "@types/react": "^19.2.0",
     "react-native-keyboard-controller": "^1.22.5",
     "react-native-linear-gradient": "^2.8.3",
