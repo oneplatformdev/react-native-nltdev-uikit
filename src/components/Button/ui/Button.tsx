@@ -1,13 +1,14 @@
 import { forwardRef, memo, useCallback, useMemo } from "react";
+import type { ComponentRef } from "react";
 import { ActivityIndicator, Pressable, View } from "react-native";
-import type { PressableInstance, PressableStateCallbackType } from "react-native";
+import type { PressableStateCallbackType } from "react-native";
 import { Typography } from "../../Typography";
 import { useButton } from "../presenters/useButton";
 import type { ButtonProps } from "../types/types";
 import { useScaling } from '../../../utils';
 import { getStyles, resolveButtonStyle } from './styles';
 
-const ButtonComponent = forwardRef<PressableInstance, ButtonProps>(
+const ButtonComponent = forwardRef<ComponentRef<typeof Pressable>, ButtonProps>(
   (
     {
       accessibilityLabel,

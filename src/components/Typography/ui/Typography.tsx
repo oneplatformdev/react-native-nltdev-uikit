@@ -1,12 +1,12 @@
 import React, { forwardRef, memo, useMemo } from 'react';
+import type { ComponentRef } from 'react';
 import { Text } from 'react-native';
-import type { TextInstance } from 'react-native';
 import { useUITheme } from '../../../theme';
 import { useScaling } from '../../../utils';
 import { getTypographyStyle } from './styles';
 import type { TypographyProps } from '../types/types';
 
-const TypographyComponent = forwardRef<TextInstance, TypographyProps>(
+const TypographyComponent = forwardRef<ComponentRef<typeof Text>, TypographyProps>(
     (
         {
             text,

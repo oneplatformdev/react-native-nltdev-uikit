@@ -18,8 +18,11 @@ export const ScreenContainer = ({
     contentContainerStyle,
     headerComponent,
     footerComponent,
+    background,
+    overlay,
     scrollViewRef,
     keyboardScrollViewRef,
+    keyboardAvoidingBehavior,
     keyboardShouldPersistTaps = 'handled',
     showsVerticalScrollIndicator = false,
     gradient,
@@ -30,10 +33,17 @@ export const ScreenContainer = ({
     const styles = useMemo(() => getStyles(colors), [colors]);
     const bottomOffset = getBottomOffset(spacing, scaling);
     const { onContainerStartShouldSetResponder, onContainerResponderRelease } = useScreenContainer();
+    const keyboardAvoidingViewProps = keyboardAvoidingBehavior === null
+        ? {}
+        : { behavior: keyboardAvoidingBehavior ?? 'padding' };
 
     return (
         <View style={styles.root}>
-            {gradient ? <LinearGradient {...gradient} pointerEvents="none" style={styles.gradient} /> : null}
+            {background != null ? (
+                <View pointerEvents="none" style={styles.layer}>{background}</View>
+            ) : gradient ? (
+                <LinearGradient {...gradient} pointerEvents="none" style={styles.layer} />
+            ) : null}
             <SafeAreaView edges={edges} style={styles.safeArea}>
                 {headerComponent}
 
@@ -63,7 +73,7 @@ export const ScreenContainer = ({
                         </ScrollView>
                     )
                 ) : isKeyboardAvoiding ? (
-                    <KeyboardAvoidingView behavior="padding" style={[styles.container, containerStyle]}>
+                    <KeyboardAvoidingView {...keyboardAvoidingViewProps} style={[styles.container, containerStyle]}>
                         <View
                             style={styles.container}
                             onStartShouldSetResponder={onContainerStartShouldSetResponder}
@@ -78,6 +88,9 @@ export const ScreenContainer = ({
 
                 {footerComponent}
             </SafeAreaView>
+            {overlay != null ? (
+                <View pointerEvents="box-none" style={styles.layer}>{overlay}</View>
+            ) : null}
         </View>
     );
 };

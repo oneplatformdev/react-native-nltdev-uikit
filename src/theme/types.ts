@@ -102,6 +102,7 @@ export type UIRadius = DefaultUIRadius & ExtendedUIRadius;
 export type UITypographyToken = {
     font: UIFontKey;
     fontSize: number;
+    color?: UIColorKey;
     lineHeight?: number;
     letterSpacing?: number;
     includeFontPadding?: TextStyle['includeFontPadding'];
