@@ -8,7 +8,7 @@ type TypographyStyleProps = Pick<TypographyProps, 'variant' | 'weight' | 'color'
 export const getTypographyStyle = (
     { colors, fonts, typography }: UITheme,
     scaling: ScalingFunctions,
-    { variant = 'body', weight, color = 'text', size, lineHeight }: TypographyStyleProps,
+    { variant = 'body', weight, color, size, lineHeight }: TypographyStyleProps,
 ): TextStyle => {
     const token = typography[variant] as UITypographyToken;
     const font = fonts[weight ?? token.font];
@@ -16,7 +16,7 @@ export const getTypographyStyle = (
 
     return {
         ...font,
-        color: colors[color],
+        color: colors[color ?? token.color ?? 'text'],
         fontSize: scaling.scaleFontSize(size ?? token.fontSize),
         lineHeight: resolvedLineHeight === undefined ? undefined : scaling.scaleLineHeight(resolvedLineHeight),
         letterSpacing: token.letterSpacing,

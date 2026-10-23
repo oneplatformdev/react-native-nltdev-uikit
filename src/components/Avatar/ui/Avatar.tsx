@@ -38,7 +38,7 @@ export const Avatar = ({
     const label = onPress
         ? accessibilityLabel ?? fallbackLabel
         : imageAccessibilityLabel ?? accessibilityLabel ?? fallbackLabel;
-    const content = showImage ? (
+    const content = source !== undefined && showImage ? (
         <Image source={source} onError={onImageError} accessible={false} style={[imageStyle, styles.image]} />
     ) : fallback != null && typeof fallback !== 'boolean' ? (
         typeof fallback === 'string' || typeof fallback === 'number'

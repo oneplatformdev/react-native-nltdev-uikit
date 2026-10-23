@@ -96,6 +96,7 @@ export const typography = {
     font: 'extraBold',
     fontSize: 18,
     lineHeight: 24,
+    color: 'premium',
   },
 } as const;
 ```
@@ -209,7 +210,7 @@ Package import: `import { Typography } from '@oneplatformdev/react-native-uikit'
 <Typography variant="body">Hello</Typography>
 ```
 
-Prefer `text` (`string | number`) for simple content. Use `children` for composed or custom content; TypeScript disallows supplying both, and neither is also valid. Typography retains React Native `TextProps`, styles, and ref forwarding. Its main visual props are `variant`, `weight`, `color`, `size`, and `lineHeight`; caller `style` is applied last. Customize its typography/font/color tokens through `createTheme` and the extension interfaces described above. Owned/local source installation: **available** with `npx @oneplatformdev/react-native-uikit add typography`.
+Prefer `text` (`string | number`) for simple content. Use `children` for composed or custom content; TypeScript disallows supplying both, and neither is also valid. Typography retains React Native `TextProps`, styles, and ref forwarding. Its main visual props are `variant`, `weight`, `color`, `size`, and `lineHeight`. A variant may define an optional `color` token; an explicit `color` prop overrides it, otherwise Typography uses the theme's `text` color. Caller `style` is applied last and can override either color. Customize typography/font/color tokens through `createTheme` and the extension interfaces described above. Owned/local source installation: **available** with `npx @oneplatformdev/react-native-uikit add typography`.
 
 ## Button
 
@@ -341,6 +342,20 @@ Owned source is available with `npx @oneplatformdev/react-native-uikit add photo
 ## ScreenContainer, CustomAlert, and BottomModal
 
 `ScreenContainer` provides a theme-backed safe-area layout, optional scrolling, and optional keyboard-aware scrolling or avoidance. Pass `gradient={{ colors, locations, start, end }}` to render a caller-configured background across the entire screen, behind the safe-area content; omit it for the solid theme background. Gradient coordinates are normalized and are not scaled. Pass ordinary ScrollView props when scrolling is enabled; use `containerStyle` and `contentContainerStyle` for layout overrides.
+
+Pass `background={<DecorativeBackground />}` for an application-owned, full-screen layer behind the safe-area content. It replaces `gradient` when both are supplied, does not affect layout, and cannot intercept touches. Pass `overlay={<FloatingAction />}` for a full-screen layer above the content; empty parts of that layer pass touches through, while its interactive children remain usable. The consumer owns each overlay child's position, safe-area offsets, visibility, and interactions.
+
+For non-scrolling keyboard avoidance, omitting `keyboardAvoidingBehavior` keeps the default `behavior="padding"`; `keyboardAvoidingBehavior={null}` omits the behavior prop; an explicit behavior is forwarded. Keyboard-aware scrolling is unchanged.
+
+```tsx
+<ScreenContainer background={<DecorativeBackground />} overlay={<FloatingAction />}>
+  <Content />
+</ScreenContainer>
+
+<ScreenContainer isKeyboardAvoiding keyboardAvoidingBehavior={null}>
+  <Form />
+</ScreenContainer>
+```
 
 `CustomAlert` animates a centered modal with a dismissible backdrop. Supply `header`, children, and optional `footer` content; compose your own actions with `Button`. Optional `closeAction` accepts an icon and an application-supplied accessibility label. No strings are translated by the kit.
 
