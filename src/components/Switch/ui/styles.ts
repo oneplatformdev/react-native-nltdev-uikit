@@ -61,10 +61,10 @@ export const useSwitchAnimatedStyles = (
 ) => {
     const trackStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(progress.value, [0, 1], [inactiveTrackColor, activeTrackColor]),
-    }), [activeTrackColor, inactiveTrackColor]);
+    }));
     const thumbStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: progress.value * travelDistance }],
-    }), [travelDistance]);
+    }));
 
     return { trackStyle, thumbStyle };
 };
