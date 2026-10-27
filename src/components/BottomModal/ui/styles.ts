@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import type { ViewStyle } from 'react-native';
 import { useAnimatedStyle } from 'react-native-reanimated';
 import { useAnimatedKeyboard } from 'react-native-keyboard-controller';
 import type { UIColors, UIRadius, UISpacing } from '../../../theme';
 import type { ScalingFunctions } from '../../../utils';
+import type { BottomModalSizing } from '../types/types';
 
 export const getStyles = (
     colors: UIColors,
@@ -12,6 +12,8 @@ export const getStyles = (
     radius: UIRadius,
     scaling: ScalingFunctions,
     bottomInset: number,
+    backdropColor: string,
+    cornerRadius?: number,
 ) => {
     const styles = StyleSheet.create({
         modalContainer: {
@@ -24,7 +26,7 @@ export const getStyles = (
             right: 0,
             bottom: 0,
             left: 0,
-            backgroundColor: colors.text,
+            backgroundColor: backdropColor,
         },
         keyboardBackground: {
             position: 'absolute',
@@ -35,8 +37,8 @@ export const getStyles = (
         },
         modalContent: {
             backgroundColor: colors.background,
-            borderTopLeftRadius: scaling.scaleHorizontal(radius.lg),
-            borderTopRightRadius: scaling.scaleHorizontal(radius.lg),
+            borderTopLeftRadius: scaling.scaleHorizontal(cornerRadius ?? radius.lg),
+            borderTopRightRadius: scaling.scaleHorizontal(cornerRadius ?? radius.lg),
             overflow: 'hidden',
             flexShrink: 1,
         },
@@ -78,7 +80,7 @@ export const getStyles = (
             paddingBottom: bottomInset + scaling.scaleVertical(spacing.lg),
             flexShrink: 1,
         },
-        fullScreenContentContainer: {
+        boundedContentContainer: {
             flex: 1,
             minHeight: 0,
         },
@@ -95,12 +97,26 @@ export const useBottomModalAnimatedStyles = (
     backdropOpacity: Animated.Value,
     isFullScreen: boolean,
     shouldAvoidKeyboard: boolean,
+    sizing?: BottomModalSizing,
+    targetBackdropOpacity = 0.5,
+    expandableHeight?: Animated.Value,
 ) => {
-    const maxHeight = height - topInset;
+    const maxHeight = Math.max(0, height - topInset);
+    const mode = sizing?.mode ?? (isFullScreen ? 'fullscreen' : 'content');
+    const fraction = sizing?.mode === 'fixed' ? sizing.fraction : undefined;
+    const validFraction = fraction !== undefined && Number.isFinite(fraction) && fraction > 0 && fraction <= 1;
+    if (__DEV__ && sizing?.mode === 'fixed' && !validFraction) {
+        throw new Error('BottomModal fixed fraction must be finite and greater than 0 and at most 1.');
+    }
+    const resolvedFraction = fraction !== undefined && Number.isFinite(fraction) && fraction > 0
+        ? Math.min(1, fraction) : 0.5;
+    const modalHeight = mode === 'fullscreen' ? maxHeight
+        : mode === 'fixed' ? maxHeight * resolvedFraction : undefined;
+    const isBoundedHeight = modalHeight !== undefined || mode === 'expandable';
     const { height: keyboardHeight } = useAnimatedKeyboard();
     const animatedBackdropStyle = useMemo(
-        () => ({ opacity: backdropOpacity.interpolate({ inputRange: [0, 1], outputRange: [0, 0.5] }) }),
-        [backdropOpacity],
+        () => ({ opacity: backdropOpacity.interpolate({ inputRange: [0, 1], outputRange: [0, targetBackdropOpacity] }) }),
+        [backdropOpacity, targetBackdropOpacity],
     );
     const animatedKeyboardContainerStyle = useAnimatedStyle(() => {
         if (!shouldAvoidKeyboard) return { marginBottom: 0, maxHeight };
@@ -110,10 +126,14 @@ export const useBottomModalAnimatedStyles = (
     const animatedKeyboardBackgroundStyle = useAnimatedStyle(() => ({
         height: shouldAvoidKeyboard ? Math.max(keyboardHeight.value - bottomInset, 0) : 0,
     }));
-    const modalContentStyle = useMemo<ViewStyle>(
-        () => ({ maxHeight, height: isFullScreen ? maxHeight : undefined, transform: [{ translateY }] }),
-        [isFullScreen, maxHeight, translateY],
+    const modalContentStyle = useMemo(
+        () => ({
+            maxHeight,
+            height: mode === 'expandable' ? expandableHeight : modalHeight,
+            transform: [{ translateY }],
+        }),
+        [expandableHeight, maxHeight, modalHeight, mode, translateY],
     );
 
-    return { animatedBackdropStyle, animatedKeyboardContainerStyle, animatedKeyboardBackgroundStyle, modalContentStyle };
+    return { animatedBackdropStyle, animatedKeyboardContainerStyle, animatedKeyboardBackgroundStyle, modalContentStyle, isBoundedHeight };
 };
