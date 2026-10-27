@@ -8,6 +8,20 @@ export interface BottomModalCloseAction {
     accessibilityHint?: string;
 }
 
+export type BottomModalSizing =
+    | { mode: 'content' }
+    | { mode: 'fixed'; fraction: number }
+    | { mode: 'fullscreen' }
+    | { mode: 'expandable'; initialFraction: number };
+
+export type BottomModalBackdrop = false | {
+    color?: string;
+    opacity?: number;
+    dismissOnPress?: boolean;
+};
+
+export type BottomModalCloseReason = 'closeAction' | 'backdrop' | 'gesture' | 'hardwareBack';
+
 export interface BottomModalProps {
     visible: boolean;
     onClose: () => void;
@@ -20,4 +34,12 @@ export interface BottomModalProps {
     contentContainerStyle?: StyleProp<ViewStyle>;
     isFullScreen?: boolean;
     shouldAvoidKeyboard?: boolean;
+    sizing?: BottomModalSizing;
+    topInset?: number;
+    showHeader?: boolean;
+    backdrop?: BottomModalBackdrop;
+    cornerRadius?: number;
+    dragToDismiss?: 'none' | 'handle';
+    onCloseRequest?: (reason: BottomModalCloseReason) => void;
+    onDismiss?: () => void;
 }

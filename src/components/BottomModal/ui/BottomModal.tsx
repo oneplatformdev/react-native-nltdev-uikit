@@ -20,54 +20,82 @@ export const BottomModal = ({
     contentContainerStyle,
     isFullScreen = false,
     shouldAvoidKeyboard = true,
+    sizing,
+    topInset,
+    showHeader = true,
+    backdrop,
+    cornerRadius,
+    dragToDismiss = 'handle',
+    onCloseRequest,
+    onDismiss,
 }: BottomModalProps) => {
     const { colors, spacing, radius } = useUITheme();
     const scaling = useScaling();
+    const backdropOptions = backdrop === false ? undefined : backdrop;
+    const backdropColor = backdropOptions?.color ?? colors.text;
+    const targetBackdropOpacity = backdropOptions?.opacity !== undefined && Number.isFinite(backdropOptions.opacity)
+        ? Math.min(1, Math.max(0, backdropOptions.opacity)) : 0.5;
+    const dismissOnBackdropPress = backdropOptions?.dismissOnPress ?? true;
+    const resolvedCornerRadius = cornerRadius !== undefined && Number.isFinite(cornerRadius)
+        ? Math.max(0, cornerRadius) : undefined;
     const {
         bottomInset,
         height,
-        topInset,
+        topInset: resolvedTopInset,
         translateY,
         backdropOpacity,
-        onClosePress,
+        expandableHeight,
+        isExpandable,
+        onCloseAction,
+        onBackdropPress,
+        onHardwareBack,
         onShow,
         panHandlers,
-    } = useBottomModal({ onClose, closeRef });
+    } = useBottomModal({ visible, onClose, onCloseRequest, onDismiss, closeRef, topInset, sizing, dragToDismiss });
 
     const {
         modalContentStyle,
         animatedBackdropStyle,
         animatedKeyboardContainerStyle,
         animatedKeyboardBackgroundStyle,
+        isBoundedHeight,
     } = useBottomModalAnimatedStyles(
-        height, topInset, bottomInset, translateY, backdropOpacity, isFullScreen, shouldAvoidKeyboard,
+        height, resolvedTopInset, bottomInset, translateY, backdropOpacity,
+        isFullScreen, shouldAvoidKeyboard, sizing, targetBackdropOpacity, expandableHeight,
     );
 
+    if (__DEV__ && isExpandable && !showHeader) {
+        throw new Error('BottomModal expandable sizing requires showHeader=true for its resize gesture.');
+    }
+
     const styles = useMemo(
-        () => getStyles(colors, spacing, radius, scaling, bottomInset),
-        [bottomInset, colors, radius, scaling, spacing],
+        () => getStyles(colors, spacing, radius, scaling, bottomInset, backdropColor, resolvedCornerRadius),
+        [backdropColor, bottomInset, colors, radius, resolvedCornerRadius, scaling, spacing],
     );
 
     return (
-        <Modal visible={visible} transparent animationType="none" statusBarTranslucent onRequestClose={onClosePress} onShow={onShow}>
+        <Modal visible={visible} transparent animationType="none" statusBarTranslucent
+            onRequestClose={onHardwareBack} onShow={onShow}>
             <View style={styles.modalContainer}>
-                <Animated.View pointerEvents="none" style={[styles.backdrop, animatedBackdropStyle]} />
+                {backdrop !== false ? (
+                    <>
+                        <Animated.View pointerEvents="none" style={[styles.backdrop, animatedBackdropStyle]} />
+                        {dismissOnBackdropPress ? (
+                            <Pressable accessible={false} importantForAccessibility="no"
+                                onPress={onBackdropPress} style={StyleSheet.absoluteFill} />
+                        ) : null}
+                    </>
+                ) : null}
                 <Reanimated.View pointerEvents="none" style={[styles.keyboardBackground, animatedKeyboardBackgroundStyle]} />
-                <Pressable
-                    accessible={false}
-                    importantForAccessibility="no"
-                    onPress={onClosePress}
-                    style={StyleSheet.absoluteFill}
-                />
 
                 <Reanimated.View style={animatedKeyboardContainerStyle}>
                     <Animated.View
                         accessibilityViewIsModal
-                        onAccessibilityEscape={onClosePress}
+                        onAccessibilityEscape={onCloseAction}
                         style={[styles.modalContent, modalContentStyle]}
                     >
-                        <View style={[styles.container, isFullScreen && styles.fullScreenContainer]}>
-                            <View {...panHandlers}>
+                        <View style={[styles.container, isBoundedHeight && styles.fullScreenContainer]}>
+                            {showHeader ? <View {...(isExpandable || dragToDismiss === 'handle' ? panHandlers : {})}>
                                 <TouchableWithoutFeedback>
                                     {customHeader ? (
                                         <View>{customHeader}</View>
@@ -84,7 +112,7 @@ export const BottomModal = ({
                                                     accessibilityRole="button"
                                                     accessibilityLabel={closeAction.accessibilityLabel}
                                                     accessibilityHint={closeAction.accessibilityHint ?? title}
-                                                    onPress={onClosePress}
+                                                    onPress={onCloseAction}
                                                     style={styles.closeButton}
                                                 >
                                                     {closeAction.icon}
@@ -93,10 +121,10 @@ export const BottomModal = ({
                                         </View>
                                     )}
                                 </TouchableWithoutFeedback>
-                            </View>
+                            </View> : null}
                             <View style={[
                                 styles.contentContainer,
-                                isFullScreen && styles.fullScreenContentContainer,
+                                isBoundedHeight && styles.boundedContentContainer,
                                 contentContainerStyle,
                             ]}>
                                 {children}
