@@ -373,7 +373,7 @@ Both modes require consumers to install the declared native peers used by these 
 
 ## HeaderWithBackButton and Loader
 
-`HeaderWithBackButton` uses caller-owned navigation, icon, and accessibility text. It defaults to a left-aligned title; center mode keeps the title centered across the whole header even when side controls have different widths. The parent (for example `ScreenContainer`) owns safe-area insets.
+`HeaderWithBackButton` uses caller-owned navigation, icon, and accessibility text. It defaults to a left-aligned, one-line title and an 18-unit back control with hit slop. `titleAlign="center"` keeps the title centered across the whole header even when side controls have different widths. `titleAlign="available-center"` centers it in the remaining space between the back control and `rightAccessory`. The parent (for example `ScreenContainer`) owns safe-area insets.
 
 ```tsx
 import { HeaderWithBackButton, Loader } from '@oneplatformdev/react-native-uikit';
@@ -394,9 +394,42 @@ import { HeaderWithBackButton, Loader } from '@oneplatformdev/react-native-uikit
   onBackPress={goBack}
   rightAccessory={<SettingsAction />}
 />
+<HeaderWithBackButton
+  title="A longer title"
+  titleAlign="available-center"
+  titleNumberOfLines={2}
+  backButtonSize={50}
+  backIcon={<BackIcon />}
+  backAccessibilityLabel="Back"
+  onBackPress={goBack}
+  rightAccessory={<SettingsAction />}
+/>
 
 <Loader accessibilityLabel="Loading" />
 <Loader indicator={<MyAnimatedLoader />} transparent accessibilityLabel="Loading" />
+```
+
+`titleComponent` can replace the normal Typography title; `title` may be omitted when supplying it. The icon keeps its own size when `backButtonSize` enlarges the touch target. A caller-defined `style.height` is supported without adding safe-area padding to the header.
+
+`backVisible` defaults to `true` and controls whether the back control is rendered or occupies layout/accessibility space. `backDisabled` defaults to `false`; when `true`, the visible control keeps its size and icon but cannot be pressed. These are independent:
+
+**1.2.12 compatibility:** In 1.2.11, `backDisabled` hid the control. To keep that behavior, use `backVisible={false}`. Starting with 1.2.12, `backDisabled` leaves it visible and disables interaction.
+
+```tsx
+<HeaderWithBackButton
+  title="Settings"
+  backIcon={<BackIcon />}
+  backAccessibilityLabel="Back"
+  onBackPress={goBack}
+  backDisabled
+/>
+<HeaderWithBackButton
+  title="Root screen"
+  backIcon={<BackIcon />}
+  backAccessibilityLabel="Back"
+  onBackPress={goBack}
+  backVisible={false}
+/>
 ```
 
 `Loader` is an absolute, container-filling overlay by default; `inline` keeps it in layout. The caller controls whether it is rendered. A custom `indicator` completely replaces the default `ActivityIndicator` without requiring extra dependencies.
